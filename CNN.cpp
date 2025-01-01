@@ -4,7 +4,7 @@
 #include <fstream>
 #include <stdexcept>
 
-// Tensor class for multi-dimensional arrays with generic data type
+
 template <typename T>
 class Tensor {
 private:
@@ -67,14 +67,24 @@ class Conv2D : public Layer<T> {
 private:
     Tensor<T> weights;
     Tensor<T> bias;
+    int in_channels;
+    int out_channels;
+    pair<int, int> stride;
+    pair<int, int> padding;
+    pair<int, int> kernel_size;
 
 public:
-    Conv2D(int in_channels, int out_channels, int kernel_size)
-        : weights({static_cast<size_t>(in_channels), static_cast<size_t>(out_channels), static_cast<size_t>(kernel_size), static_cast<size_t>(kernel_size)}),
-          bias({static_cast<size_t>(out_channels)}) {}
+    Conv2D(int in_channels, int out_channels, pair<int, int> kernel_size, pair<int, int> stride = {1, 1},
+           pair<int, int> padding = {0, 0})
+        : in_channels(in_channels), out_channels(out_channels), kernel_size(kernel_size), stride(stride),
+          padding(padding) {
+        weights = Tensor<T>({static_cast<size_t>(out_channels), static_cast<size_t>(in_channels),
+                             static_cast<size_t>(kernel_size.first), static_cast<size_t>(kernel_size.second)});
+        bias = Tensor<T>({static_cast<size_t>(out_channels)});
+    }
 
     void forward(const Tensor<T>& input) override {
-        // Implement convolution logic here
+        // Implement convolutional layer logic here
         std::cout << "Conv2D forward pass" << std::endl;
     }
 };
