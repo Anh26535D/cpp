@@ -1,31 +1,15 @@
+#include <vector>
+#include <algorithm>
 #include <iostream>
-#include <string>
 
 using namespace std;
 
-class B {
-private:
-    int b;
-public:
-    B() {}
-    B(int i) : b(i) {}
-    int show() { return b; }
-};
-
-class C {
-private:    
-    B b;
-public:
-    C(int i) { b = B(i); }
-    friend void show();
-};
-
-void show() {
-    C c(10);
-    cout << "value of b is: " << c.b.show() << endl;
-}
-
 int main() {
-    show();
-    return 0;
+    std::vector<int> vect = {2, 4, 6, 8, 1, 3, 5, 7};
+    auto ppoint = partition_point(
+        begin(vect), 
+        end(vect), 
+        [](int i){return i % 2 == 0;}
+    );
+    cout << "The first odd value is " << *ppoint << endl;
 }
